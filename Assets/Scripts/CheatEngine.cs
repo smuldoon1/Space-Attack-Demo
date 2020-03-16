@@ -22,23 +22,15 @@ public class CheatEngine : MonoBehaviour
             Debug.Log("Commands toggled");
             if (commandBox.gameObject.activeSelf)
             {
+                Game.Pause(true);
                 commandBox.gameObject.SetActive(false);
             }
             else
             {
+                Game.Pause(false);
                 commandBox.gameObject.SetActive(true);
             }
         }
-        /*
-        if (commandBox.isFocused)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
-        */
     }
 
     void CheckCommand(InputField command)
@@ -79,6 +71,7 @@ public class CheatEngine : MonoBehaviour
                 break;
             case "openborders":
                 Debug.Log("Removed forcefields");
+                cheatsEnabled = true;
                 break;
             case "kill":
                 Debug.Log("Destroyed the player");

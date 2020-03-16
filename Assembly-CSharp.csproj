@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\EnemyShip.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Forcefield.cs" />
+    <Compile Include="Assets\Scripts\Game.cs" />
     <Compile Include="Assets\Scripts\OverheatMeter.cs" />
     <Compile Include="Assets\Scripts\PlayerShip.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
@@ -83,6 +84,9 @@
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/Space Attack 2/Space-Attack-2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>D:/Space Attack 2/Space-Attack-2/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Space Attack 2/Space-Attack-2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -131,9 +135,6 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>D:/Space Attack 2/Space-Attack-2/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>D:/Space Attack 2/Space-Attack-2/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.9f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

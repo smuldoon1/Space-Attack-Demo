@@ -6,6 +6,6 @@ public class SmallEnemy : EnemyShip
 {
     public override Coroutine Fire()
     {
-        return StartCoroutine(BasicFire());
+        return StartCoroutine(BasicFire(new Vector3(0f, 0f, -1f)));
     }
 }

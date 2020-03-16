@@ -40,7 +40,7 @@ public abstract class EnemyShip : Ship
                     }
                 }
 
-                transform.position += velocity;
+                transform.position += velocity * Time.deltaTime;
             }
             else
             {

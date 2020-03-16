@@ -41,6 +41,14 @@ public class @StandardControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""1260c130-12ae-4c01-a66a-eb182277a237"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -71,7 +79,7 @@ public class @StandardControls : IInputActionCollection, IDisposable
                     ""id"": ""d7aaf514-4841-4e70-826a-d851a4832c1d"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone(min=0.54)"",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -133,6 +141,17 @@ public class @StandardControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""86c1bac6-b8e4-4702-8778-461adfe49c15"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""Keyboard"",
                     ""id"": ""b1a0a22b-eec0-4513-9e1b-4ad733099e8c"",
                     ""path"": ""1DAxis"",
@@ -167,12 +186,23 @@ public class @StandardControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""86c1bac6-b8e4-4702-8778-461adfe49c15"",
-                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""id"": ""916fee42-3d5e-4a3f-a4a9-b4ac93eede40"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Roll"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""061a49b2-a788-4109-86a7-5daab0b65bb2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -186,6 +216,7 @@ public class @StandardControls : IInputActionCollection, IDisposable
         m_Ship_Fire = m_Ship.FindAction("Fire", throwIfNotFound: true);
         m_Ship_Move = m_Ship.FindAction("Move", throwIfNotFound: true);
         m_Ship_Roll = m_Ship.FindAction("Roll", throwIfNotFound: true);
+        m_Ship_Pause = m_Ship.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +269,7 @@ public class @StandardControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Ship_Fire;
     private readonly InputAction m_Ship_Move;
     private readonly InputAction m_Ship_Roll;
+    private readonly InputAction m_Ship_Pause;
     public struct ShipActions
     {
         private @StandardControls m_Wrapper;
@@ -245,6 +277,7 @@ public class @StandardControls : IInputActionCollection, IDisposable
         public InputAction @Fire => m_Wrapper.m_Ship_Fire;
         public InputAction @Move => m_Wrapper.m_Ship_Move;
         public InputAction @Roll => m_Wrapper.m_Ship_Roll;
+        public InputAction @Pause => m_Wrapper.m_Ship_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ship; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +296,9 @@ public class @StandardControls : IInputActionCollection, IDisposable
                 @Roll.started -= m_Wrapper.m_ShipActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_ShipActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_ShipActionsCallbackInterface.OnRoll;
+                @Pause.started -= m_Wrapper.m_ShipActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_ShipActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_ShipActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_ShipActionsCallbackInterface = instance;
             if (instance != null)
@@ -276,6 +312,9 @@ public class @StandardControls : IInputActionCollection, IDisposable
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -285,5 +324,6 @@ public class @StandardControls : IInputActionCollection, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

@@ -28,6 +28,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "1260c130-12ae-4c01-a66a-eb182277a237",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -58,7 +66,7 @@
                     "id": "d7aaf514-4841-4e70-826a-d851a4832c1d",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone(min=0.54)",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
@@ -120,6 +128,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "",
+                    "id": "86c1bac6-b8e4-4702-8778-461adfe49c15",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "Keyboard",
                     "id": "b1a0a22b-eec0-4513-9e1b-4ad733099e8c",
                     "path": "1DAxis",
@@ -154,12 +173,23 @@
                 },
                 {
                     "name": "",
-                    "id": "86c1bac6-b8e4-4702-8778-461adfe49c15",
-                    "path": "<Gamepad>/rightStick/x",
+                    "id": "916fee42-3d5e-4a3f-a4a9-b4ac93eede40",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Roll",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "061a49b2-a788-4109-86a7-5daab0b65bb2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

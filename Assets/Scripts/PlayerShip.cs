@@ -35,6 +35,8 @@ public class PlayerShip : Ship
 
         input.Ship.Roll.performed += context => rollAxis = context.ReadValue<float>();
         input.Ship.Roll.canceled += context => rollAxis = 0f;
+
+        input.Ship.Pause.performed += context => Game.Pause();
     }
 
     private void Start()
@@ -45,46 +47,36 @@ public class PlayerShip : Ship
 
     private void Update()
     {
-        if (alive)
+        if (alive && !Game.isPaused)
         {
-            Vector3 inputVelocity = Vector3.zero;
-
-            if (moveAxis.x < 0)
-            {
-                inputVelocity.x -= 0.5f;
-            }
-            if (moveAxis.x > 0)
-            {
-                inputVelocity.x += 0.5f;
-            }
-            if (moveAxis.y > 0)
-            {
-                inputVelocity.z += 1;
-            }
-            if (moveAxis.y < 0)
-            {
-                inputVelocity.z -= 1;
-            }
-
             if (firing == null && fireDown)
             {
-                firing = StartCoroutine(BasicFire());
+                firing = StartCoroutine(BasicFire(new Vector3(0f, 0f, 1f)));
             }
+        }
+    }
 
-            if (!IsRolling())
+    private void LateUpdate()
+    {
+        if (!IsRolling() && alive && !Game.isPaused)
+        {
+            if (rollAxis < 0)
             {
-                if (rollAxis < 0)
-                {
-                    rolling = StartCoroutine(Roll(-1));
+                rolling = StartCoroutine(Roll(-1));
 
-                }
-                if (rollAxis > 0)
-                {
-                    rolling = StartCoroutine(Roll(1));
-                }
             }
+            if (rollAxis > 0)
+            {
+                rolling = StartCoroutine(Roll(1));
+            }
+        }
+    }
 
-            velocity += inputVelocity.normalized;
+    private void FixedUpdate()
+    {
+        if (alive && !Game.isPaused)
+        {
+            velocity += new Vector3(moveAxis.x, 0, moveAxis.y).normalized;
             Move(velocity);
             velocity /= drag;
 

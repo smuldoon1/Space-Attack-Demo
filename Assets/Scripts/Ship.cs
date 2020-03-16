@@ -28,12 +28,15 @@ public class Ship : MonoBehaviour
         rigidBody.useGravity = false;
     }
 
-    protected IEnumerator BasicFire()
+    protected IEnumerator BasicFire(params Vector3[] relativePositions)
     {
-        Projectile newBullet = Instantiate(bullet, transform.position + transform.forward, Quaternion.identity);
-        newBullet.SetVelocity(transform.forward * newBullet.speed);
-        newBullet.SetParent(transform);
-        audioSource.PlayOneShot(newBullet.shootSound);
+        foreach (Vector3 rp in relativePositions)
+        {
+            Projectile newBullet = Instantiate(bullet, transform.position + rp, Quaternion.identity);
+            newBullet.SetVelocity(transform.forward * newBullet.speed);
+            newBullet.SetParent(transform);
+            audioSource.PlayOneShot(newBullet.shootSound);
+        }
         yield return new WaitForSeconds(fireRate);
         firing = null;
     }

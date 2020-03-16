@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerShip : Ship
 {
@@ -15,6 +16,27 @@ public class PlayerShip : Ship
     Animator anim;
     Coroutine rolling;
 
+    StandardControls input;
+
+    Vector2 moveAxis;
+    bool fireDown;
+    float rollAxis;
+
+    new private void Awake()
+    {
+        base.Awake();
+        input = new StandardControls();
+
+        input.Ship.Fire.performed += context => Fire(true);
+        input.Ship.Fire.canceled += context => Fire(false);
+
+        input.Ship.Move.performed += context => moveAxis = context.ReadValue<Vector2>();
+        input.Ship.Move.canceled += context => moveAxis = Vector2.zero;
+
+        input.Ship.Roll.performed += context => rollAxis = context.ReadValue<float>();
+        input.Ship.Roll.canceled += context => rollAxis = 0f;
+    }
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -27,43 +49,38 @@ public class PlayerShip : Ship
         {
             Vector3 inputVelocity = Vector3.zero;
 
-            if (Input.GetKey(KeyCode.A))
+            if (moveAxis.x < 0)
             {
                 inputVelocity.x -= 0.5f;
             }
-            if (Input.GetKey(KeyCode.D))
+            if (moveAxis.x > 0)
             {
                 inputVelocity.x += 0.5f;
             }
-            if (Input.GetKey(KeyCode.W))
+            if (moveAxis.y > 0)
             {
                 inputVelocity.z += 1;
             }
-            if (Input.GetKey(KeyCode.S))
+            if (moveAxis.y < 0)
             {
                 inputVelocity.z -= 1;
             }
 
-            if (!IsRolling())
+            if (firing == null && fireDown)
             {
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    rolling = StartCoroutine(Roll(-1));
-                    inputVelocity.x -= 100;
-
-                }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    rolling = StartCoroutine(Roll(1));
-                    inputVelocity.x += 100;
-                }
+                firing = StartCoroutine(BasicFire());
             }
 
-            if (Input.GetKey(KeyCode.Space))
+            if (!IsRolling())
             {
-                if (firing == null)
+                if (rollAxis < 0)
                 {
-                    firing = StartCoroutine(BasicFire());
+                    rolling = StartCoroutine(Roll(-1));
+
+                }
+                if (rollAxis > 0)
+                {
+                    rolling = StartCoroutine(Roll(1));
                 }
             }
 
@@ -95,6 +112,11 @@ public class PlayerShip : Ship
         rolling = null;
     }
 
+    void Fire(bool fireEnable)
+    {
+        fireDown = fireEnable;
+    }
+
     public bool IsRolling()
     {
         if (rolling == null)
@@ -117,5 +139,15 @@ public class PlayerShip : Ship
                 TakeDamage(100);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        input.Ship.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Ship.Disable();
     }
 }

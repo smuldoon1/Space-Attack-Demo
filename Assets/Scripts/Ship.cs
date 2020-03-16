@@ -20,7 +20,7 @@ public class Ship : MonoBehaviour
     protected AudioSource audioSource;
     protected Rigidbody rigidBody;
 
-    void Awake()
+    public void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();

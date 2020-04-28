@@ -17,7 +17,7 @@ public class CheatEngine : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.RightBracket))
+        if (Input.GetKeyDown(KeyCode.Slash))
         {
             Debug.Log("Commands toggled");
             if (commandBox.gameObject.activeSelf)

@@ -13,7 +13,7 @@ public class Ship : MonoBehaviour
     Vector3 rightRotation;
     public float selfRightStrength = 1;
 
-    protected bool alive = true;
+    public /*protected*/ bool alive = true;
 
     public Coroutine firing;
 
@@ -30,6 +30,8 @@ public class Ship : MonoBehaviour
 
     protected IEnumerator BasicFire(params Vector3[] relativePositions)
     {
+        yield return new WaitForSeconds(fireRate);
+        firing = null;
         foreach (Vector3 rp in relativePositions)
         {
             Projectile newBullet = Instantiate(bullet, transform.position + rp, Quaternion.identity);
@@ -37,8 +39,6 @@ public class Ship : MonoBehaviour
             newBullet.SetParent(transform);
             audioSource.PlayOneShot(newBullet.shootSound);
         }
-        yield return new WaitForSeconds(fireRate);
-        firing = null;
     }
 
     public void TakeDamage(float damage)

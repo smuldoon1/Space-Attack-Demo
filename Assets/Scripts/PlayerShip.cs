@@ -5,10 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerShip : Ship
 {
+    /// <summary> The maximum velocity of the ship. </summary>
     public float moveSpeed;
+
+    /// <summary> The constant drag applied to the ship. </summary>
     [Min(0.01f)]
     public float drag;
 
+    /// <summary></summary>
     public Vector3 velocity;
 
     public AudioClip rollSound;
@@ -22,6 +26,9 @@ public class PlayerShip : Ship
     bool fireDown;
     float rollAxis;
 
+    /// <summary>
+    /// Initialise the ship and setup the controls
+    /// </summary>
     new private void Awake()
     {
         base.Awake();
@@ -42,6 +49,7 @@ public class PlayerShip : Ship
     private void Start()
     {
         anim = GetComponent<Animator>();
+        anim.enabled = false;
         rigidBody.inertiaTensorRotation = Quaternion.identity;
     }
 
@@ -84,13 +92,24 @@ public class PlayerShip : Ship
         }
     }
 
+    /// <summary>
+    /// Move the ship with a Vector3.
+    /// </summary>
+    /// <param name="velocity"></param>
     void Move(Vector3 velocity)
     {
         gameObject.transform.Translate(velocity * Time.deltaTime * moveSpeed, Space.World);
     }
 
+
+    /// <summary>
+    /// Roll the ship left or right. Negative values roll left, positive values roll right.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     IEnumerator Roll(float direction)
     {
+        anim.enabled = true;
         if (direction < 0)
         {
             anim.Play("RollLeft");
@@ -101,6 +120,7 @@ public class PlayerShip : Ship
         }
         //audioSource.PlayOneShot(rollSound);
         yield return new WaitForSeconds(0.7f);
+        anim.enabled = false;
         rolling = null;
     }
 
@@ -109,6 +129,10 @@ public class PlayerShip : Ship
         fireDown = fireEnable;
     }
 
+    /// <summary>
+    /// Check if the ship is rolling.
+    /// </summary>
+    /// <returns></returns>
     public bool IsRolling()
     {
         if (rolling == null)
@@ -118,6 +142,10 @@ public class PlayerShip : Ship
         return true;
     }
 
+    /// <summary>
+    /// Called when the ship collides with something.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -133,11 +161,17 @@ public class PlayerShip : Ship
         }
     }
 
+    /// <summary>
+    /// Enable input for the ship.
+    /// </summary>
     private void OnEnable()
     {
         input.Ship.Enable();
     }
 
+    /// <summary>
+    /// Disable input for the ship.
+    /// </summary>
     private void OnDisable()
     {
         input.Ship.Disable();

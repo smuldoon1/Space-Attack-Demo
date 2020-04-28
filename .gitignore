@@ -1,2 +1,6 @@
-.vs/
-Temp/UnityLockfile
+/*
+/*/
+
+!.gitignore
+!/Assets/
+!/ProjectSettings/
